@@ -946,6 +946,19 @@ class RegressionTest(RegressionMixin, jsonext.JSONSerializable):
     #: :default: :class:`True`
     build_locally = variable(typ.Bool, value=True, loggable=True)
 
+    #: .. versionadded:: ??
+    #:
+    #: Options for CI pipeline passed in JSON format
+    #:
+    #: Example: If we want a pipeline to run only when files in
+    #: backend or src/main.c have changed, we add:
+    #:
+    #: ci_options = {"only": {"changes": ["backend/*", "src/main.c"]}}
+    #:
+    #: :type: `dict`
+    #: :default: ``{}``
+    ci_options = variable(typ.Dict[str, object], value={}, loggable=True)
+
     def __new__(cls, *args, **kwargs):
         obj = super().__new__(cls)
 
