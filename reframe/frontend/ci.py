@@ -62,13 +62,15 @@ def _emit_gitlab_pipeline(testcases, child_pipeline_opts):
         json['image'] = image_name
 
     for tc in testcases:
+        print("options", tc.check.ci_options)
         json[f'{tc.check.unique_name}'] = {
             'stage': f'rfm-stage-{tc.level}',
             'script': [rfm_command(tc)],
             'artifacts': {
                 'paths': [f'{tc.check.unique_name}-report.json']
             },
-            'needs': [t.check.unique_name for t in tc.deps]
+            'needs': [t.check.unique_name for t in tc.deps],
+            **tc.check.ci_options
         }
         max_level = max(max_level, tc.level)
 
